@@ -2,17 +2,17 @@
 
 A 24×7 multi-agent crypto trading stack built on Temporal and Model Context Protocol (MCP) with integrated LLM as Judge performance optimization. Every `@mcp.tool()` is backed by Temporal primitives (workflows, signals, or queries), providing deterministic execution, automatic retries and full replay for audit and compliance.
 
-## ✨ Key Features
+##  Key Features
 
-- **🤖 Multi-Agent Architecture**: Broker, execution, and judge agents working in coordination
-- **📊 LLM as Judge System**: Autonomous performance evaluation and prompt optimization
-- **🔄 Dynamic Prompt Management**: Adaptive system prompts based on trading performance
-- **📈 Comprehensive Analytics**: Real-time performance metrics, risk analysis, and transaction history
-- **🛡️ Risk Management**: Intelligent position sizing, drawdown protection, and portfolio monitoring
-- **💰 Profit Scraping**: Configurable profit-taking to secure gains while allowing reinvestment
-- **📚 Historical Data Loading**: Automatic 1-hour historical data initialization for informed startup
-- **📋 Distributed Logging**: Individual agent workflow logging for better separation of concerns
-- **⚡ Durable Execution**: Built on Temporal workflows for fault tolerance and auditability
+- **Multi-Agent Architecture**: Broker, execution, and judge agents working in coordination
+- **LLM as Judge System**: Autonomous performance evaluation and prompt optimization
+- **Dynamic Prompt Management**: Adaptive system prompts based on trading performance
+- **Comprehensive Analytics**: Real-time performance metrics, risk analysis, and transaction history
+- **Risk Management**: Intelligent position sizing, drawdown protection, and portfolio monitoring
+- **Profit Scraping**: Configurable profit-taking to secure gains while allowing reinvestment
+- **Historical Data Loading**: Automatic 1-hour historical data initialization for informed startup
+- **Distributed Logging**: Individual agent workflow logging for better separation of concerns
+- **Durable Execution**: Built on Temporal workflows for fault tolerance and auditability
 
 ## Table of Contents
 
@@ -39,7 +39,7 @@ Temporal supplies resilient workflows while MCP gives agents a shared, tool-base
 
 The system consists of three main agents working together:
 
-### 🏆 Single Interface Design
+###  Single Interface Design
 
 The **Broker Agent** serves as the sole user interface, providing access to all system functionality including trading, performance analysis, and evaluation triggering.
 
@@ -190,7 +190,7 @@ Required environment variables:
 
 ```bash
 # Clone and bootstrap
-git clone https://github.com/your-org/durable-crypto-agents.git
+git clone https://github.com/stwomack/crypto-trading-agents.git
 cd durable-crypto-agents
 
 # Activate Python env
@@ -226,7 +226,7 @@ This starts the Temporal dev server, Python worker, MCP server and several sampl
    - **"What's the transaction history?"** - Shows recent trades and fills
    - **"Evaluate performance"** - Forces immediate performance analysis
 
-### 🤖 Interacting with the System
+###  Interacting with the System
 
 The broker agent serves as your single interface. Try these commands:
 
@@ -257,27 +257,6 @@ also checks its current history length and continues early when it exceeds
 `ComputeFeatureVector` behaves the same way using the `VECTOR_CONTINUE_EVERY`
 and `VECTOR_HISTORY_LIMIT` environment variables.
 
-## Repository Layout
-
-```
-├── agents/                    # Multi-agent system components
-│   ├── broker_agent_client.py    # Single user interface agent
-│   ├── execution_agent_client.py # Trading decision agent
-│   ├── judge_agent_client.py     # LLM as Judge performance optimizer
-│   ├── workflows.py               # Temporal workflow definitions
-│   ├── context_manager.py         # Intelligent conversation management
-├── tools/                     # Durable workflows used as MCP tools
-│   ├── performance_analysis.py   # Performance metrics and analysis
-│   ├── market_data.py            # Market data streaming
-│   ├── execution.py              # Order execution
-│   └── ...
-├── mcp_server/               # FastAPI server exposing the tools
-├── worker/                   # Temporal worker loading workflows
-├── tests/                    # Unit tests for tools and agents
-├── run_stack.sh             # tmux helper to launch local stack
-└── ticker_ui_service.py     # Simple websocket ticker UI
-```
-
 ### Key Components
 
 - **`broker_agent_client.py`**: Main user interface providing access to all system functionality
@@ -289,7 +268,7 @@ and `VECTOR_HISTORY_LIMIT` environment variables.
 - **`market_data.py`**: Historical data loading and streaming with configurable windows
 - **`agent_logger.py`**: Distributed logging system routing to individual agent workflows
 
-## 🧠 LLM as Judge System
+##  LLM as Judge System
 
 The system implements a sophisticated "LLM as Judge" pattern for continuous self-improvement:
 
@@ -323,7 +302,7 @@ The system implements a sophisticated "LLM as Judge" pattern for continuous self
 6. Implement changes and track effectiveness
 ```
 
-## 💰 Profit Scraping System
+##  Profit Scraping System
 
 The system includes intelligent profit-taking to secure gains while maintaining trading capital:
 
