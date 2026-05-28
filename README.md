@@ -176,7 +176,6 @@ Each block corresponds to one or more MCP tools (Temporal workflows) described b
 | ------------ | ------------- | --------------------------------------------- |
 | Python       | 3.11 or newer | Data & strategy agents                        |
 | Temporal CLI | 1.24+         | `brew install temporal` or use Temporal Cloud |
-| tmux         | latest        | Required for `run_stack.sh` start script      |
 
 Required environment variables:
 
@@ -198,25 +197,33 @@ python -m venv .venv && source .venv/bin/activate
 pip install uv
 uv sync
 
-# Launch the full stack
+# Print per-terminal startup commands (clears logs)
 ./run_stack.sh
 ```
 
-Point your agent workers at `localhost:8080` (default MCP port) and confirm health at <http://localhost:8080/healthz>.
+Then open separate terminal tabs or windows (Ghostty, iTerm, Terminal.app, etc.) and run each printed command in order. Point agents at `localhost:8080` (default MCP port) and confirm health at <http://localhost:8080/healthz>.
 
 ## Demo
 
-The quickest way to see the stack in action is to run the included `run_stack.sh` script which launches everything in a single `tmux` session.
+Run `./run_stack.sh` once from the repo root. It clears old logs and prints copy-paste commands for seven terminals. Start them in order so Temporal and the worker are up before agents connect.
 
-```bash
-./run_stack.sh
-```
+| Terminal | Component        | Command (after `cd` repo + `source .venv/bin/activate`) |
+| -------- | ---------------- | --------------------------------------------------------- |
+| 1        | Temporal         | `temporal server start-dev`                               |
+| 2        | Worker           | `export INITIAL_PORTFOLIO_BALANCE=1000` then `python worker/main.py` |
+| 3        | MCP server       | `PYTHONPATH="$PWD" python mcp_server/app.py`              |
+| 4        | Broker agent     | `PYTHONPATH="$PWD" python agents/broker_agent_client.py`  |
+| 5        | Execution agent  | `PYTHONPATH="$PWD" python agents/execution_agent_client.py` |
+| 6        | Judge agent      | `PYTHONPATH="$PWD" python agents/judge_agent_client.py`   |
+| 7        | Ticker UI        | `PYTHONPATH="$PWD" python ticker_ui_service.py` (optional) |
 
-This starts the Temporal dev server, Python worker, MCP server and several sample agents. Each component runs in its own `tmux` pane so you can watch log output as orders flow through the system. Detach from the session with `Ctrl-b d` and reattach anytime by running the script again. Shutdown is as simple as ctrl+c in any tmux pane and then entering `tmux kill-server`
+Custom starting balance: `./run_stack.sh --initial-balance 250000` (updates the worker export in the printed output).
+
+Shutdown with `Ctrl+C` in each terminal. Stop agents and MCP first, then the worker, then Temporal.
 
 ### Walking through the demo
 
-1. Run the shell script `./run_stack.sh`
+1. Run `./run_stack.sh` and start each printed command in its own terminal
 2. When prompted for trading pairs, tell the broker agent **"BTC/USD, ETH/USD, DOGE/USD"** (recommended 2-4 pairs for optimal performance).
 3. `start_market_stream` automatically loads 1 hour of historical data, then spawns a `subscribe_cex_stream` workflow that broadcasts each ticker to its `ComputeFeatureVector` child.
 4. The execution agent wakes up periodically via a scheduled workflow and analyzes market data to decide whether to trade using `place_mock_order`.
